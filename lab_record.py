@@ -23,8 +23,6 @@ class LabRecord:
         reference_high = data.get("reference_high")
         doctor_notes = data.get("doctor_notes")
 
-        
-
         return LabRecord(lab_id, user_id, test_name, value, test_date, reference_low, reference_high, doctor_notes)
 
     def is_in_range(self):
