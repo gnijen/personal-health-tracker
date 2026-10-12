@@ -47,3 +47,16 @@ def get_user_by_email(email):
     row = cursor.fetchone()
     conn.close()
     return row
+
+
+def save_medication(med):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO medications (user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (med.user_id, med.medication_name, med.dosage, med.instructions, med.last_refill_date.isoformat(), med.days_per_supply,  med.refills_remaining)
+    )
+    conn.commit()
+    new_id = cursor.lastrowid
+    conn.close()
+    return new_id
