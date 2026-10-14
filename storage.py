@@ -1,4 +1,5 @@
 import sqlite3
+from med_refill import MedRefill
 
 def get_connection():
     conn = sqlite3.connect("app.db")
@@ -60,3 +61,12 @@ def save_medication(med):
     new_id = cursor.lastrowid
     conn.close()
     return new_id
+
+
+def get_medications_for_user(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM medications WHERE user_id = ?", (user_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [MedRefill.from_row(row) for row in rows]
