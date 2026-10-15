@@ -90,8 +90,8 @@ def save_lab_record(record):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO labs (lab_id, user_id, test_name, value, test_date, reference_low, reference_high, doctor_notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        (record.lab_id, record.user_id, record.test_name, record.value, record.test_date.isoformat(), record.reference_low, record.reference_high, record.doctor_notes)
+        "INSERT INTO labs (user_id, test_name, value, test_date, reference_low, reference_high, doctor_notes) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (record.user_id, record.test_name, record.value, record.test_date.isoformat(), record.reference_low, record.reference_high, record.doctor_notes)
     )
     conn.commit()
     new_lab_id = cursor.lastrowid
