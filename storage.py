@@ -29,6 +29,21 @@ def create_tables():
             FOREIGN KEY (user_id) REFERENCES users(user_id)
                 )
     """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS labs (
+            lab_id INTEGER PRIMARY KEY,
+            user_id INTEGER,
+            test_name TEXT,
+            value REAL,
+            test_date TEXT,
+            reference_low REAL,
+            reference_high REAL,
+            doctor_notes TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(user_id)
+                )
+    """)
+
     conn.commit()
     conn.close()
 
