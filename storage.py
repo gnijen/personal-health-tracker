@@ -1,5 +1,6 @@
 import sqlite3
 from med_refill import MedRefill
+from lab_record import LabRecord
 
 def get_connection():
     conn = sqlite3.connect("app.db")
@@ -97,3 +98,12 @@ def save_lab_record(record):
     new_lab_id = cursor.lastrowid
     conn.close()
     return new_lab_id 
+
+
+def get_labs_for_user(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM labs WHERE user_id = ?", (user_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [LabRecord.from_row(row) for row in rows]
