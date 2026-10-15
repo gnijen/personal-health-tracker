@@ -69,7 +69,7 @@ def save_medication(med):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO medications (user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO medications(user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining) VALUES (?, ?, ?, ?, ?, ?, ?)",
         (med.user_id, med.medication_name, med.dosage, med.instructions, med.last_refill_date.isoformat(), med.days_per_supply,  med.refills_remaining)
     )
     conn.commit()
@@ -85,3 +85,15 @@ def get_medications_for_user(user_id):
     rows = cursor.fetchall()
     conn.close()
     return [MedRefill.from_row(row) for row in rows]
+
+def save_lab_record(record):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO labs (lab_id, user_id, test_name, value, test_date, reference_low, reference_high, doctor_notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        (record.lab_id, record.user_id, record.test_name, record.value, record.test_date.isoformat(), record.reference_low, record.reference_high, record.doctor_notes)
+    )
+    conn.commit()
+    new_lab_id = cursor.lastrowid
+    conn.close()
+    return new_lab_id 
