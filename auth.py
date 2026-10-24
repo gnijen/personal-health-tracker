@@ -22,12 +22,12 @@ def signup(email, plain_password):
 def login(email, plain_password):
     row = get_user_by_email(email)
     if row is None:
-        return "Login failed"
+        return None
     user = User.from_row(row)
     if pwd_context.verify(plain_password, user.hashed_password):
-        return "Login Successful"
+        return user
     else:
-        return "Login failed"
+        return None
 
 SECRET_KEY = "this-is-a-placeholder-change-it-later"
 
