@@ -1,7 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
-from auth import signup,login, create_token
+from auth import signup, login, create_token, verify_token
 from storage import create_tables
+
 
 app = FastAPI()
 create_tables()
@@ -13,6 +15,8 @@ class SignupRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: str
     password: str
+
+bearer = HTTPBearer()
 
 @app.get("/")
 def home():
@@ -32,3 +36,9 @@ def login_route(data:LoginRequest):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     token = create_token(user.user_id)
     return {"access_token": token, "token_type": "bearer"}
+
+def get_current_user(creds: HTTPAuthorizationCredentials = Depends(bearer)):
+    payload = verify_token(creds.credentials)
+    if payload is None:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    return payload["user_id"]
