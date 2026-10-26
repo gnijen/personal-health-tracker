@@ -1,42 +1,70 @@
-# class MedRefill:
-#     def __init__(self, task_id, title, deadline, priority):
-#         self.task_id = task_id
-#         self.title = title
-#         self.deadline = deadline
-#         self.priority = priority
-#         self.completed = False
+from datetime import date, timedelta
+class MedRefill:
+    def __init__(self, refill_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining ):
+        self.refill_id = refill_id
+        self.user_id = user_id
+        self.medication_name = medication_name
+        self.dosage = dosage
+        self.instructions = instructions
+        self.last_refill_date = last_refill_date
+        self.days_per_supply = days_per_supply
+        self.refills_remaining = refills_remaining
 
-#     def mark_complete(self):
-#         self.completed = True
 
-#     def to_dict(self):
+    def alert_date(self):
+        alert_time = timedelta(days = 14)
+        supply_length = timedelta(days = self.days_per_supply)
+        alert = (self.last_refill_date + supply_length) - alert_time
+        return alert
 
-#         return {"task_id": self.task_id,
-#         "title" : self.title,
-#         "deadline" : self.deadline,
-#        "priority":  self.priority,
-#         "completed": self.completed
-#         }
-
-#     @staticmethod
-#     def from_dict(data):
-#         task_id = data.get("task_id")
-#         title = data.get("title")
-#         deadline = data.get("deadline")
-#         priority = data.get("priority")
-        
-
-#         # new_task = Task(task_id, title, deadline, priority)
-#         # new_task.completed = data.get("completed")
-
-#         return new_task
     
-#     def __str__(self):
-#         check = "✓" if self.completed else " "
-#         return f"[{check}] ({self.task_id}) {self.title} - due {self.deadline} - {self.priority}"
+    def alert_message(self):
+        if self.refills_remaining == 0:
+            return f"Please book your doctor's appointment for prescription/medication refill. Your {self.medication_name} is running low."
+        else:
+            return f"Please contact your pharmacy for your {self.medication_name} refill. Your medication is running low."
 
 
+    @staticmethod
+    def from_dict(data):
+        refill_id = data.get("refill_id")                                       
+        user_id = data.get("user_id")
+        medication_name = data.get("medication_name")
+        dosage = data.get("dosage")
+        instructions = data.get("instructions")
+        last_refill_date = date.fromisoformat(data.get("last_refill_date"))
+        days_per_supply = data.get("days_per_supply")
+        refills_remaining = data.get("refills_remaining")
 
+        return MedRefill(refill_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining)
+
+
+    def __str__(self):
+        return f"User id: {self.user_id} Medication name: {self.medication_name} Dosage: {self.dosage} Alert Date: {self.alert_date()}"
         
 
 
+    @staticmethod
+    def from_row(row):
+        refill_id = row[0]
+        user_id = row[1]
+        medication_name = row[2]
+        dosage = row[3]
+        instructions = row[4]
+        last_refill_date = date.fromisoformat(row[5])
+        days_per_supply = row[6]
+        refills_remaining = row[7]
+        return MedRefill(refill_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining)
+
+    def to_dict(self):
+        return {
+            "refill_id": self.refill_id,
+            "medication_name": self.medication_name,
+            "dosage": self.dosage,
+            "instructions": self.instructions,
+            "last_refill_date": self.last_refill_date.isoformat(),
+            "days_per_supply": self.days_per_supply,
+            "refills_remaining": self.refills_remaining,
+            "alert_date":   self.alert_date().isoformat(),
+            "alert_message": self.alert_message(),
+        }
