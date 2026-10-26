@@ -55,3 +55,16 @@ class MedRefill:
         days_per_supply = row[6]
         refills_remaining = row[7]
         return MedRefill(refill_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining)
+
+    def to_dict(self):
+        return {
+            "refill_id": self.refill_id,
+            "medication_name": self.medication_name,
+            "dosage": self.dosage,
+            "instructions": self.instructions,
+            "last_refill_date": self.last_refill_date.isoformat(),
+            "days_per_supply": self.days_per_supply,
+            "refills_remaining": self.refills_remaining,
+            "alert_date":   self.alert_date().isoformat(),
+            "alert_message": self.alert_message(),
+        }

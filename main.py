@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from auth import signup, login, create_token, verify_token
-from storage import create_tables
+from storage import create_tables, get_medications_for_user
 
 
 app = FastAPI()
@@ -42,3 +42,8 @@ def get_current_user(creds: HTTPAuthorizationCredentials = Depends(bearer)):
     if payload is None:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
     return payload["user_id"]
+
+@app.get("/medications")
+def my_medications(user_id: int = Depends(get_current_user)):
+    meds = get_medications_for_user(user_id)
+    return [med.to_dict() for med in meds]
