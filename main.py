@@ -2,7 +2,9 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from auth import signup, login, create_token, verify_token
-from storage import create_tables, get_medications_for_user
+from storage import create_tables, get_medications_for_user, save_medication
+from med_refill import MedRefill
+from datetime import date
 
 
 app = FastAPI()
@@ -15,6 +17,14 @@ class SignupRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: str
     password: str
+
+class MedicationRequest(BaseModel):
+    medication_name: str
+    dosage: str
+    instructions: str
+    last_refill_date: date
+    days_per_supply: int
+    refills_remaining: int
 
 bearer = HTTPBearer()
 
@@ -47,3 +57,10 @@ def get_current_user(creds: HTTPAuthorizationCredentials = Depends(bearer)):
 def my_medications(user_id: int = Depends(get_current_user)):
     meds = get_medications_for_user(user_id)
     return [med.to_dict() for med in meds]
+
+@app.post("/medications")
+def add_medication(data: MedicationRequest, user_id: int = Depends(get_current_user)):
+    med = MedRefill(None, user_id, data.medication_name, data.dosage, data.instructions, data.last_refill_date, data.days_per_supply, data.refills_remaining)
+    new_id = save_medication(med)
+    med.refill_id = new_id
+    return med.to_dict()
