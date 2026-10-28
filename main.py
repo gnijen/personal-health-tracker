@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from auth import signup, login, create_token, verify_token
-from storage import create_tables, get_medications_for_user, save_medication, delete_medication
+from storage import create_tables, get_medications_for_user, save_medication, delete_medication, get_labs_for_user
 from med_refill import MedRefill
 from datetime import date
 
@@ -71,3 +71,8 @@ def remove_medication(refill_id: int, user_id: int = Depends(get_current_user)):
     if deleted == 0:
         raise HTTPException(status_code=404, detail="Medication not found")
     return {"message": "Medication deleted", "refill_id": refill_id}
+
+@app.get("/labs")
+def my_labs(user_id: int = Depends(get_current_user)):
+    labs = get_labs_for_user(user_id)
+    return [lab.to_dict() for lab in labs]
