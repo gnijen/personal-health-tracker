@@ -18,8 +18,7 @@ I built this because managing one long-term prescription meant juggling three se
 - Lab results: stores test values and checks them against reference ranges
 
 **Planned**
-- Routes for adding medications and lab results
-- Frontend: login, dashboard and lab history
+- Frontend in React: login, dashboard and lab history
 - Automated tests, including a test that one user can't see another user's data
 - CI with GitHub Actions
 - Deployment with PostgreSQL
@@ -39,9 +38,10 @@ I built this because managing one long-term prescription meant juggling three se
 | POST | `/signup` | Create an account | No | Done |
 | POST | `/login` | Log in and receive a JWT | No | Done |
 | GET | `/medications` | List my medications, with refill alerts | Yes | Done |
-| POST | `/medications` | Add a medication | Yes | Planned |
-| GET | `/labs` | List my lab results | Yes | Planned |
-| POST | `/labs` | Add a lab result | Yes | Planned |
+| POST | `/medications` | Add a medication | Yes | Done |
+| DELETE | `/medications/{refill_id}` | Delete one of my medications | Yes | Done |
+| GET | `/labs` | List my lab results, with range checks | Yes | Done |
+| POST | `/labs` | Add a lab result | Yes | Done |
 
 ## Project structure
 

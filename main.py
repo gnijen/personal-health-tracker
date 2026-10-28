@@ -2,9 +2,10 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from auth import signup, login, create_token, verify_token
-from storage import create_tables, get_medications_for_user, save_medication, delete_medication, get_labs_for_user
+from storage import create_tables, get_medications_for_user, save_medication, delete_medication, get_labs_for_user, save_lab_record
 from med_refill import MedRefill
 from datetime import date
+from lab_record import LabRecord
 
 
 app = FastAPI()
@@ -25,6 +26,14 @@ class MedicationRequest(BaseModel):
     last_refill_date: date
     days_per_supply: int
     refills_remaining: int
+
+class LabRequest(BaseModel):
+    test_name: str
+    value: float
+    test_date: date
+    reference_low: float
+    reference_high: float
+    doctor_notes: str
 
 bearer = HTTPBearer()
 
@@ -76,3 +85,10 @@ def remove_medication(refill_id: int, user_id: int = Depends(get_current_user)):
 def my_labs(user_id: int = Depends(get_current_user)):
     labs = get_labs_for_user(user_id)
     return [lab.to_dict() for lab in labs]
+
+@app.post("/labs")
+def add_labs(data: LabRequest, user_id: int = Depends(get_current_user)):
+    lab = LabRecord(None, user_id, data.test_name, data.value, data.test_date, data.reference_low, data.reference_high, data.doctor_notes)
+    new_id = save_lab_record(lab)
+    lab.lab_id = new_id
+    return lab.to_dict()
