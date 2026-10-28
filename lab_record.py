@@ -39,3 +39,15 @@ class LabRecord:
         reference_high = row[6]
         doctor_notes = row[7]
         return LabRecord(lab_id, user_id, test_name, value, test_date, reference_low, reference_high, doctor_notes)
+
+    def to_dict(self):
+        return {
+            "lab_id": self.lab_id,
+            "test_name": self.test_name,
+            "value": self.value,
+            "test_date": self.test_date.isoformat(),
+            "reference_low": self.reference_low,
+            "reference_high": self.reference_high,
+            "doctor_notes": self.doctor_notes,
+            "in_range": self.is_in_range(),
+        }
