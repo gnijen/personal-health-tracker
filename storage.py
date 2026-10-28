@@ -107,3 +107,13 @@ def get_labs_for_user(user_id):
     rows = cursor.fetchall()
     conn.close()
     return [LabRecord.from_row(row) for row in rows]
+
+def delete_medication(refill_id, user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM medications WHERE refill_id = ? AND user_id = ?", (refill_id, user_id)
+    )
+    conn.commit()
+    deleted = cursor.rowcount
+    conn.close()
+    return deleted
