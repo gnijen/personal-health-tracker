@@ -1,9 +1,11 @@
 from passlib.context import CryptContext
 from user import User
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from storage import get_user_by_email, save_user
 import sqlite3
+import os
+from dotenv import load_dotenv
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -29,12 +31,15 @@ def login(email, plain_password):
     else:
         return None
 
-SECRET_KEY = "this-is-a-placeholder-change-it-later"
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY is not set")
 
 def create_token(user_id):
     payload = {
         "user_id" : user_id,
-        "exp" : datetime.now() + timedelta(hours=24)
+        "exp" : datetime.now(timezone.utc) + timedelta(hours=24)
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
     return token
