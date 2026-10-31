@@ -92,3 +92,10 @@ def add_labs(data: LabRequest, user_id: int = Depends(get_current_user)):
     new_id = save_lab_record(lab)
     lab.lab_id = new_id
     return lab.to_dict()
+
+@app.get("/medications/alerts")
+def get_medication_alerts(user_id: int = Depends(get_current_user)):
+    meds = get_medications_for_user(user_id)
+    today = date.today()
+    return [med.to_dict() for med in meds if med.alert_date() <= today]
+    
