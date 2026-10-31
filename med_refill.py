@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 class MedRefill:
-    def __init__(self, refill_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining ):
-        self.refill_id = refill_id
+    def __init__(self, medication_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining ):
+        self.medication_id = medication_id
         self.user_id = user_id
         self.medication_name = medication_name
         self.dosage = dosage
@@ -27,7 +27,7 @@ class MedRefill:
 
     @staticmethod
     def from_dict(data):
-        refill_id = data.get("refill_id")                                       
+        medication_id = data.get("medication_id")                                       
         user_id = data.get("user_id")
         medication_name = data.get("medication_name")
         dosage = data.get("dosage")
@@ -36,7 +36,7 @@ class MedRefill:
         days_per_supply = data.get("days_per_supply")
         refills_remaining = data.get("refills_remaining")
 
-        return MedRefill(refill_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining)
+        return MedRefill(medication_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining)
 
 
     def __str__(self):
@@ -46,7 +46,7 @@ class MedRefill:
 
     @staticmethod
     def from_row(row):
-        refill_id = row[0]
+        medication_id = row[0]
         user_id = row[1]
         medication_name = row[2]
         dosage = row[3]
@@ -54,11 +54,11 @@ class MedRefill:
         last_refill_date = date.fromisoformat(row[5])
         days_per_supply = row[6]
         refills_remaining = row[7]
-        return MedRefill(refill_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining)
+        return MedRefill(medication_id, user_id, medication_name, dosage, instructions, last_refill_date, days_per_supply, refills_remaining)
 
     def to_dict(self):
         return {
-            "refill_id": self.refill_id,
+            "medication_id": self.medication_id,
             "medication_name": self.medication_name,
             "dosage": self.dosage,
             "instructions": self.instructions,

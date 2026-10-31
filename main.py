@@ -71,15 +71,15 @@ def my_medications(user_id: int = Depends(get_current_user)):
 def add_medication(data: MedicationRequest, user_id: int = Depends(get_current_user)):
     med = MedRefill(None, user_id, data.medication_name, data.dosage, data.instructions, data.last_refill_date, data.days_per_supply, data.refills_remaining)
     new_id = save_medication(med)
-    med.refill_id = new_id
+    med.medication_id = new_id
     return med.to_dict()
 
-@app.delete("/medications/{refill_id}")
-def remove_medication(refill_id: int, user_id: int = Depends(get_current_user)):
-    deleted = delete_medication(refill_id, user_id)
+@app.delete("/medications/{medication_id}")
+def remove_medication(medication_id: int, user_id: int = Depends(get_current_user)):
+    deleted = delete_medication(medication_id, user_id)
     if deleted == 0:
         raise HTTPException(status_code=404, detail="Medication not found")
-    return {"message": "Medication deleted", "refill_id": refill_id}
+    return {"message": "Medication deleted", "medication_id": medication_id}
 
 @app.get("/labs")
 def my_labs(user_id: int = Depends(get_current_user)):
