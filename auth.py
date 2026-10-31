@@ -3,7 +3,7 @@ from user import User
 import jwt
 from datetime import datetime, timedelta, timezone
 from storage import get_user_by_email, save_user
-import sqlite3
+import psycopg 
 import os
 from dotenv import load_dotenv
 
@@ -18,7 +18,7 @@ def signup(email, plain_password):
         new_id = save_user(new_user)
         new_user.user_id = new_id
         return new_user
-    except sqlite3.IntegrityError:
+    except psycopg.errors.UniqueViolation:
         return None
 
 def login(email, plain_password):
