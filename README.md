@@ -38,6 +38,7 @@ I built this because managing one long-term prescription meant juggling three se
 | POST | `/signup` | Create an account | No | Done |
 | POST | `/login` | Log in and receive a JWT | No | Done |
 | GET | `/medications` | List my medications, with refill alerts | Yes | Done |
+| GET | `/medications/alerts` | List my medications that need a refill now (alert date is today or earlier) | Yes | Done |
 | POST | `/medications` | Add a medication | Yes | Done |
 | DELETE | `/medications/{medication_id}` | Delete one of my medications | Yes | Done |
 | GET | `/labs` | List my lab results, with range checks | Yes | Done |
