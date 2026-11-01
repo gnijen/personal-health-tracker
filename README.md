@@ -2,6 +2,10 @@
 
 A multi-user web app for tracking medication refills, prescription status and lab results.
 
+**Live API:** https://personal-health-tracker-igxm.onrender.com/docs
+
+> Hosted on Render's free tier: the first request after a quiet period can take up to a minute while the server wakes up.
+
 I built this because managing one long-term prescription meant juggling three separate sites: one for doctor appointments, one for the pharmacy, and one for lab results. This app brings that information into a single account: it works out when each prescription is running low, flags lab results outside their reference range, and keeps every user's data separate.
 
 > **Status:** in progress. The backend API, authentication and database are working. The frontend, tests and deployment are next.
