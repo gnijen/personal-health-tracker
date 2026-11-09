@@ -6,9 +6,17 @@ from storage import create_tables, get_medications_for_user, save_medication, de
 from med_refill import MedRefill
 from datetime import date
 from lab_record import LabRecord
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 create_tables()
 
 class SignupRequest(BaseModel):
