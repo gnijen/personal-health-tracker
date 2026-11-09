@@ -34,6 +34,7 @@ export default function HomePage() {
             <h1>Good afternoon</h1>
             <button onClick={handleSignOut}>Sign out</button>
             <Link to="/medicines">See all medicines</Link>
+            <Link to="/labs">See lab results</Link>
             {error && <p>{error}</p>}
             <h2>Needs your attention</h2>
             {alerts.length === 0 ? (
