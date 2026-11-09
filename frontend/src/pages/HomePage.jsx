@@ -1,28 +1,25 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../api";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
     const [meds, setMeds] = useState([]);
     const [alerts, setAlerts] = useState([]);
+    const [labs, setLabs] = useState([]);
     const [error, setError] = useState("");
-    const navigate = useNavigate();
 
-    const handleSignOut = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("first_name");
-        navigate("/");
-    };
 
     useEffect(() => {
         const loadMeds = async () => {
             try {
-                const [medsData, alertsData] = await Promise.all([
+                const [medsData, alertsData, labsData] = await Promise.all([
                     apiRequest("/medications"),
                     apiRequest("/medications/alerts"),
+                    apiRequest("/labs"),
                 ]);
                 setMeds(medsData);
                 setAlerts(alertsData);
+                setLabs(labsData);
             } catch (err) {
                 setError(err.message);
             }
@@ -34,13 +31,24 @@ export default function HomePage() {
     const firstName = localStorage.getItem("first_name");
     return (
         <div>
-            <div className="nav">
-                <Link to="/medicines">Medicines</Link>
-                <Link to="/labs">Lab results</Link>
-                <button className="secondary" onClick={handleSignOut}>Sign out</button>
-            </div>
             <h1>{greeting}{firstName ? `, ${firstName}` : ""}</h1>
             {error && <p className="error">{error}</p>}
+            {!error && (
+                <div className="stats">
+                    <Link to="/medicines" className="stat">
+                        <span className="stat-number">{meds.length}</span>
+                        <span className="stat-label">Medicines</span>
+                    </Link>
+                    <div className={alerts.length > 0 ? "stat attention" : "stat"}>
+                        <span className="stat-number">{alerts.length}</span>
+                        <span className="stat-label">Need attention</span>
+                    </div>
+                    <Link to="/labs" className="stat">
+                        <span className="stat-number">{labs.length}</span>
+                        <span className="stat-label">Lab results</span>
+                    </Link>
+                </div>
+            )}
 
             {!error && (
                 <div className="home-columns">

@@ -38,7 +38,7 @@ export default function AddMedicinePage() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Link to="/medicines">← Back</Link>
+
             <h1>Add a medicine</h1>
             <p className="muted">You'll find most of this on the pharmacy label.</p>
 
@@ -61,7 +61,10 @@ export default function AddMedicinePage() {
             <input id="refills_remaining" name="refills_remaining" type="number" min="0" value={form.refills_remaining} onChange={handleChange} required />
 
             {error && <p className="error">{error}</p>}
-            <button type="submit">Save medicine</button>
+            <div className="form-actions">
+                <Link to="/medicines" className="button-ghost">Cancel</Link>
+                <button type="submit">Save medicine</button>
+            </div>
         </form>
     );
 }

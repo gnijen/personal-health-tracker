@@ -7,18 +7,21 @@ import AddMedicinePage from "./pages/AddMedicinePage";
 import LabsPage from "./pages/LabsPage";
 import AddLabPage from "./pages/AddLabPage";
 import SignUpPage from "./pages/SignUpPage";
+import Layout from "./Layout";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SignInPage />} />
-        <Route path="/home" element={<RequireAuth><HomePage /></RequireAuth>} />
-        <Route path="/medicines" element={<RequireAuth><MedicinesPage /></RequireAuth>} />
-        <Route path="/medicines/new" element={<RequireAuth><AddMedicinePage /></RequireAuth>} />
-        <Route path="/labs" element={<RequireAuth><LabsPage /></RequireAuth>} />
-        <Route path="/labs/new" element={<RequireAuth><AddLabPage /></RequireAuth>} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route element={<RequireAuth><Layout /></RequireAuth>}>
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/medicines" element={<MedicinesPage />} />
+          <Route path="/medicines/new" element={<AddMedicinePage />} />
+          <Route path="/labs" element={<LabsPage />} />
+          <Route path="/labs/new" element={<AddLabPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
