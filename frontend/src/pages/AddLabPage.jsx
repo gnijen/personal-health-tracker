@@ -39,9 +39,9 @@ export default function AddLabPage() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Link to="/labs">Back</Link>
+      <Link to="/labs">← Back</Link>
       <h1>Add a lab result</h1>
-      <p>You'll find these numbers on your lab report.</p>
+      <p className="muted">You'll find these numbers on your lab report.</p>
 
       <label htmlFor="test_name">Test name</label>
       <input id="test_name" name="test_name" value={form.test_name} onChange={handleChange} placeholder="For example, HbA1c" required />
@@ -61,7 +61,7 @@ export default function AddLabPage() {
       <label htmlFor="doctor_notes">Note from your doctor (optional)</label>
       <input id="doctor_notes" name="doctor_notes" value={form.doctor_notes} onChange={handleChange} />
 
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
       <button type="submit">Save result</button>
     </form>
   );

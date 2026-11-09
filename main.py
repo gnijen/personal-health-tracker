@@ -20,6 +20,7 @@ app.add_middleware(
 create_tables()
 
 class SignupRequest(BaseModel):
+    first_name: str
     email: str
     password: str
 
@@ -51,10 +52,10 @@ def home():
 
 @app.post("/signup")
 def signup_route(data: SignupRequest):
-    user = signup(data.email, data.password)
+    user = signup(data.email, data.password, data.first_name)
     if user is None:
         raise HTTPException(status_code=400, detail="Email already registered")
-    return {"user_id": user.user_id, "email": user.email}
+    return {"user_id": user.user_id, "email": user.email, "first_name": user.first_name}
 
 @app.post("/login")
 def login_route(data:LoginRequest):
@@ -62,8 +63,7 @@ def login_route(data:LoginRequest):
     if user is None:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     token = create_token(user.user_id)
-    return {"access_token": token, "token_type": "bearer"}
-
+    return {"access_token": token, "token_type": "bearer", "first_name": user.first_name}
 def get_current_user(creds: HTTPAuthorizationCredentials = Depends(bearer)):
     payload = verify_token(creds.credentials)
     if payload is None:

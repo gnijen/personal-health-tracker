@@ -10,10 +10,9 @@ from dotenv import load_dotenv
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def signup(email, plain_password):
-    
+def signup(email, plain_password, first_name):
     hashed_password = pwd_context.hash(plain_password)
-    new_user = User(None, email, hashed_password)
+    new_user = User(None, email, hashed_password, first_name)
     try:
         new_id = save_user(new_user)
         new_user.user_id = new_id

@@ -6,6 +6,7 @@ import MedicinesPage from "./pages/MedicinesPage";
 import AddMedicinePage from "./pages/AddMedicinePage";
 import LabsPage from "./pages/LabsPage";
 import AddLabPage from "./pages/AddLabPage";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/medicines/new" element={<RequireAuth><AddMedicinePage /></RequireAuth>} />
         <Route path="/labs" element={<RequireAuth><LabsPage /></RequireAuth>} />
         <Route path="/labs/new" element={<RequireAuth><AddLabPage /></RequireAuth>} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </BrowserRouter>
   );
