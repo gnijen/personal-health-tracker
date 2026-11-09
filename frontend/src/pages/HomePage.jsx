@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function HomePage() {
     const [meds, setMeds] = useState([]);
@@ -33,6 +33,7 @@ export default function HomePage() {
         <div>
             <h1>Good afternoon</h1>
             <button onClick={handleSignOut}>Sign out</button>
+            <Link to="/medicines">See all medicines</Link>
             {error && <p>{error}</p>}
             <h2>Needs your attention</h2>
             {alerts.length === 0 ? (
