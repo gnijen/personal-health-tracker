@@ -34,6 +34,7 @@ export default function MedicinesPage() {
     <div>
       <Link to="/home">Back to home</Link>
       <h1>Your medicines</h1>
+      <Link to="/medicines/new">Add a medicine</Link>
       {error && <p>{error}</p>}
       {meds.map((m) => (
         <div key={m.medication_id}>
