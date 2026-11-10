@@ -12,7 +12,10 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://personal-health-tracker-web.onrender.com",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -64,6 +67,7 @@ def login_route(data:LoginRequest):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     token = create_token(user.user_id)
     return {"access_token": token, "token_type": "bearer", "first_name": user.first_name}
+
 def get_current_user(creds: HTTPAuthorizationCredentials = Depends(bearer)):
     payload = verify_token(creds.credentials)
     if payload is None:
