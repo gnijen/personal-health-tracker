@@ -15,12 +15,11 @@ def get_connection():
 def create_tables():
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users (
+    cursor.execute("""CREATE TABLE IF NOT EXISTS users (
             user_id SERIAL PRIMARY KEY,
             email TEXT UNIQUE,
-            hashed_password TEXT
-        )
+            hashed_password TEXT,
+            first_name TEXT)
     """)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS medications (
@@ -55,8 +54,8 @@ def save_user(user):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO users (email, hashed_password) VALUES (%s, %s) RETURNING user_id",  
-        (user.email, user.hashed_password)
+        "INSERT INTO users (email, hashed_password, first_name) VALUES (%s, %s, %s) RETURNING user_id",
+        (user.email, user.hashed_password, user.first_name)
     )
     new_id = cursor.fetchone()[0]  
     conn.commit()
