@@ -5,7 +5,18 @@ A multi-user web app for tracking medication refills, prescription status and la
 **Live app:** https://personal-health-tracker-web.onrender.com
 **API docs:** https://personal-health-tracker-igxm.onrender.com/docs
 
-> Hosted on Render's free tier: the first sign-in after a quiet period can take up to a minute while the server wakes up.
+## Try it
+
+Open the [live app](https://personal-health-tracker-web.onrender.com) and click **Try the demo**. No sign-up is needed. It signs you into a sample account with 6 medicines and 6 lab results, which resets every time someone clicks the button.
+
+The app runs on Render's free plan, so the first request after a quiet period can take up to a minute while the server wakes up.
+
+## Screenshots
+
+| Home | Medicines | Lab results |
+| --- | --- | --- |
+| ![Home page with refill alerts](docs/screenshots/home.png) | ![Medicines with supply bars](docs/screenshots/medicines.png) | ![Lab results with range bars](docs/screenshots/labresults.png) |
+
 
 I built this because managing one long-term prescription meant juggling three separate sites: one for doctor appointments, one for the pharmacy, and one for lab results. This app brings that information into a single account: it works out when each prescription is running low, flags lab results outside their reference range, and keeps every user's data separate.
 
@@ -34,6 +45,7 @@ I built this because managing one long-term prescription meant juggling three se
 | GET | `/` | Health check | No |
 | POST | `/signup` | Create an account (first name, email, password) | No |
 | POST | `/login` | Sign in and receive a JWT | No |
+| POST | `/demo` | Reset the demo account and sign in as the demo user | No |
 | GET | `/medications` | List my medicines, with refill alerts | Yes |
 | GET | `/medications/alerts` | List my medicines that need a refill now | Yes |
 | POST | `/medications` | Add a medicine | Yes |
@@ -50,6 +62,7 @@ storage.py         PostgreSQL tables and queries
 user.py            User model
 med_refill.py      Medicine model and refill-alert logic
 lab_record.py      Lab result model and range check
+demo.py            Demo account: resets the sample data behind "Try the demo"
 frontend/          React app (Vite)
   src/api.js         One place for all API calls
   src/Layout.jsx     Header and tabs shared by every signed-in page
@@ -66,8 +79,8 @@ frontend/          React app (Vite)
    ```
 2. Install and start:
    ```bash
-   pip install -r requirements.txt
-   uvicorn main:app --reload
+   python -m pip install -r requirements.txt
+   python -m uvicorn main:app --reload
    ```
    API docs: http://127.0.0.1:8000/docs
 

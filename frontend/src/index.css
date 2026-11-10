@@ -106,7 +106,7 @@ form button[type="submit"] { margin-top: 20px; }
 .secondary { min-height: 44px; background: transparent; color: var(--danger); border: 1.5px solid var(--danger); }
 .secondary:hover { background: var(--danger-soft); }
 
-/* ---------- Wider layout for laptops ---------- */
+
 #root {
   max-width: 1040px;
   padding: 32px 24px 56px;
@@ -149,7 +149,8 @@ form {
   margin: 8vh auto 0;
   padding: 32px 28px;
 }
-/* ---------- Header and tabs ---------- */
+
+
 .app-header {
   display: flex;
   flex-wrap: wrap;
@@ -170,7 +171,7 @@ form {
 .tab:hover { background: var(--surface); }
 .tab.active { background: var(--accent-soft); color: #2F4A3A; }
 
-/* On phones: tabs move to the bottom of the screen */
+
 @media (max-width: 640px) {
   .tabs {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
@@ -183,7 +184,7 @@ form {
   #root { padding-bottom: 96px; }
 }
 
-/* ---------- Form buttons ---------- */
+
 .form-actions { display: flex; gap: 12px; margin-top: 20px; }
 .form-actions > * { flex: 1; }
 .form-actions button[type="submit"] { margin-top: 0; }
@@ -194,7 +195,7 @@ form {
 }
 .button-ghost:hover { background: #FFFFFF; }
 
-/* ---------- Gentle fade-in for cards ---------- */
+
 @keyframes rise {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
@@ -204,7 +205,7 @@ form {
   .card { animation: none; }
 }
 
-/* ---------- Summary tiles ---------- */
+
 .stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -233,14 +234,15 @@ a.stat:hover { outline: 2px solid var(--accent-soft); }
   .stat { padding: 12px; }
   .stat-number { font-size: 26px; }
 }
-/* ---------- Supply bar ---------- */
+
+
 .supply { margin: 10px 0 4px; }
 .supply-label { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 15px; font-weight: 700; color: var(--muted); }
 .bar { height: 10px; border-radius: 999px; background: #EDE5D8; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 999px; background: var(--accent); }
 .bar-fill.low { background: #C8893A; }
 
-/* ---------- Lab range bar ---------- */
+
 .range { position: relative; height: 12px; margin: 14px 0 8px; border-radius: 999px; background: #EDE5D8; }
 .range-band { position: absolute; top: 0; bottom: 0; left: 25%; width: 50%; border-radius: 999px; background: #CFE0D4; }
 .range-marker {
@@ -249,3 +251,14 @@ a.stat:hover { outline: 2px solid var(--accent-soft); }
   background: var(--accent); border: 3px solid var(--surface);
 }
 .range-marker.warn { background: #B07326; }
+
+
+.or { text-align: center; margin: 14px 0 0; color: var(--muted); font-weight: 700; }
+.demo-button {
+  width: 100%; margin-top: 14px;
+  background: var(--surface); color: var(--accent);
+  border: 1.5px solid var(--accent);
+}
+.demo-button:hover { background: var(--accent-soft); }
+button:disabled { opacity: 0.6; cursor: wait; }
+.waking { text-align: center; margin-top: 12px; }
