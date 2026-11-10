@@ -125,3 +125,11 @@ def delete_medication(medication_id, user_id):
     conn.commit()
     conn.close()
     return deleted
+
+def delete_all_data_for_user(user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM medications WHERE user_id = %s", (user_id,))
+    cursor.execute("DELETE FROM labs WHERE user_id = %s", (user_id,))
+    conn.commit()
+    conn.close()

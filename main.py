@@ -7,7 +7,7 @@ from med_refill import MedRefill
 from datetime import date
 from lab_record import LabRecord
 from fastapi.middleware.cors import CORSMiddleware
-
+from demo import reset_demo_account, DEMO_EMAIL
 
 app = FastAPI()
 app.add_middleware(
@@ -55,6 +55,8 @@ def home():
 
 @app.post("/signup")
 def signup_route(data: SignupRequest):
+    if data.email.strip().lower() == DEMO_EMAIL:
+        raise HTTPException(status_code=400, detail="This email is reserved for the demo")
     user = signup(data.email, data.password, data.first_name)
     if user is None:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -65,6 +67,12 @@ def login_route(data:LoginRequest):
     user = login(data.email, data.password)
     if user is None:
         raise HTTPException(status_code=401, detail="Invalid email or password")
+    token = create_token(user.user_id)
+    return {"access_token": token, "token_type": "bearer", "first_name": user.first_name}
+
+@app.post("/demo")
+def demo_route():
+    user = reset_demo_account()
     token = create_token(user.user_id)
     return {"access_token": token, "token_type": "bearer", "first_name": user.first_name}
 
